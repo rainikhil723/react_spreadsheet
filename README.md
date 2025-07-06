@@ -1,69 +1,158 @@
-# React + TypeScript + Vite
+# 📊 React Spreadsheet Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A pixel-perfect React spreadsheet application built as per the internship assignment requirements.
 
-Currently, two official plugins are available:
+## 🎯 Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a static, front-end-only React prototype that visually matches the provided Figma design for a spreadsheet view. The application provides a Google Sheets/Excel-like experience with interactive features and clean, maintainable code.
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Core Features
+- **Pixel-perfect Figma implementation** - Matches the design specifications exactly
+- **Excel-like spreadsheet experience** - Cell selection, editing, and navigation
+- **Interactive UI elements** - All buttons and tabs are functional
+- **Responsive design** - Works across different screen sizes
+- **TypeScript strict mode** - Type-safe code throughout
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Spreadsheet Functionality
+- ✅ Cell selection and highlighting
+- ✅ Double-click to edit cells
+- ✅ Keyboard navigation (Enter, Escape)
+- ✅ Status badges with custom styling
+- ✅ Priority indicators
+- ✅ Currency formatting with rupee symbol
+- ✅ Hover effects and visual feedback
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### UI Components
+- 📋 Dynamic toolbar with functional buttons
+- 🔍 Search functionality
+- 👤 User profile section
+- 📊 Status indicators and priority badges
+- 🎨 Color-coded column headers
+- 📱 Bottom navigation tabs
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Tech Stack
+
+- **React 18** - Modern React with hooks
+- **TypeScript** - Strict mode enabled
+- **Tailwind CSS** - Utility-first styling
+- **Vite** - Fast development and build tool
+- **Lucide React** - Beautiful icons
+
+## 🚦 Getting Started
+
+### Prerequisites
+- Node.js 16+ 
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/react-spreadsheet-app.git
+
+# Navigate to project directory
+cd react-spreadsheet-app
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Development
+npm run dev          # Start development server
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Build
+npm run build        # Build for production
+npm run preview      # Preview production build
+
+# Code Quality
+npm run lint         # Run ESLint
+npm run type-check   # Run TypeScript compiler check
 ```
+
+## 📱 Live Demo
+
+🔗 **[Live Application](https://react-spreadsheet-delta.vercel.app/)**
+
+## 🎨 Design Reference
+
+The application is built to match the Figma design specifications:
+- [Figma Design Link](https://www.figma.com/design/3nywpu5sz45RrCmwe68QZP/Intern-Design-Assigment?node-id=2-2535&t=DJGGMt8I4fiZjoIB-1)
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+│   └── SpreadsheetApp.tsx    # Main spreadsheet component
+├──Index.html           # TypeScript interfaces
+├── App.tsx                   # Root component
+└── main.tsx                  # Application entry point
+```
+
+## 🎯 Implementation Details
+
+### Key Components
+
+1. **SpreadsheetApp** - Main component containing all spreadsheet logic
+2. **Cell Rendering** - Dynamic cell rendering with different types (text, status, priority, currency)
+3. **Interactive Elements** - Toolbar buttons, search, user profile
+4. **Status Management** - Visual status indicators with custom styling
+
+### Technical Decisions
+
+- **State Management**: Used React's built-in useState for local state management
+- **Styling**: Tailwind CSS for utility-first styling approach
+- **Type Safety**: TypeScript interfaces for all data structures
+- **Performance**: Optimized rendering with proper key props and event handling
+
+## 🔧 Trade-offs & Considerations
+
+### Design Decisions
+- **Static Data**: Used mock data instead of API integration for this prototype
+- **Image Assets**: Referenced placeholder images for icons (would need actual assets)
+- **Responsive Design**: Focused on desktop experience as per requirements
+- **Performance**: Prioritized code clarity over micro-optimizations
+
+### Known Limitations
+- Images are referenced but not included in repository
+- No data persistence (changes reset on refresh)
+- Limited keyboard navigation (basic implementation)
+- No column resizing (stretch goal not implemented due to time)
+
+## 🎪 Features Implemented
+
+### ✅ Core Requirements
+- [x] Pixel-perfect Figma implementation
+- [x] Excel-like spreadsheet experience
+- [x] Interactive buttons and tabs
+- [x] Clean, linted code
+- [x] TypeScript strict mode
+- [x] Tailwind CSS styling
+
+### ⚡ Stretch Goals
+- [x] Basic keyboard navigation (Enter/Escape)
+- [ ] Column resize functionality
+- [ ] Column hide/show toggles
+- [ ] Advanced keyboard navigation (arrow keys)
+
+
+
+
+## 🙏 Acknowledgments
+
+- Design provided by Inscripts team
+- Built with modern React and TypeScript
+- Styled with Tailwind CSS
+- Some Icons by Lucide React
+
+---
+
+**Built with ❤️ and lots of ☕ by [NIKHIL RAI]**
