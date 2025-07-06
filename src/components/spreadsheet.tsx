@@ -1,24 +1,10 @@
-  import React, { useState, useEffect, useRef, useCallback } from 'react';
+  import React, { useState, useEffect, useRef } from 'react';
   import { 
     ChevronDown, 
     Plus, 
     Search, 
-    Filter, 
-    Download, 
-    Share2, 
-    MoreHorizontal,
     EyeOff,
-    ArrowUpDown,
-    Import,
-    Upload,
-    Bell,
-    User,
-    FileText,
-    Calendar,
-    Users,
-    Link,
-    Flag,
-    DollarSign
+    ArrowUpDown
   } from 'lucide-react';
 
   interface SpreadsheetRow {
@@ -104,6 +90,35 @@
     const [editValue, setEditValue] = useState<string>('');
     const inputRef = useRef<HTMLInputElement>(null);
 
+    // Button handlers
+    const handleHideFields = () => {
+      console.log('Hide fields clicked');
+    };
+
+    const handleSort = () => {
+      console.log('Sort clicked');
+    };
+
+    const handleFilter = () => {
+      console.log('Filter clicked');
+    };
+
+    const handleImport = () => {
+      console.log('Import clicked');
+    };
+
+    const handleExport = () => {
+      console.log('Export clicked');
+    };
+
+    const handleShare = () => {
+      console.log('Share clicked');
+    };
+
+    const handleNewAction = () => {
+      console.log('New Action clicked');
+    };
+
     const handleCellClick = (rowIndex: number, column: string) => {
       setSelectedCell({row: rowIndex, col: column});
     };
@@ -140,55 +155,49 @@
     }, [editingCell]);
 
     const getStatusBadge = (status: string) => {
-    const iconProps = "w-5 h-5";
-
-    const statusIcons: Record<string, JSX.Element> = {
-      "In-progress": (
-          <img src="/images/Status (2).png" alt="Logo" className="w-18 h-18 object-contain" />
-
-      ),
-      "Need to start": (
-              <img src="/images/Status (3).png" alt="Logo" className="w-18 h-18 object-contain" />
-
-      ),
-      "Complete": (
-              <img src="/images/Status.png" alt="Logo" className="w-18 h-18 object-contain" />
-
-      ),
-      "Blocked": (
-              <img src="/images/Status (1).png" alt="Logo" className="w-18 h-18 object-contain" />
-
-      ),
-    };
-
-    return (
-      <div className="flex items-center justify-center">
-        {statusIcons[status] ?? <span className="text-xs text-gray-500">Unknown</span>}
-      </div>
-    );
-  };
-      const getPriorityBadge = (priority: string) => {
-      const priorityStyles = {
-        'High': 'bg-red-50 text-red-700',
-        'Medium': 'bg-amber-50 text-amber-700',
-        'Low': 'bg-blue-50 text-blue-700'
+      const statusIcons: Record<string, JSX.Element> = {
+        "In-progress": (
+            <img src="/images/Status (2).png" alt="Logo" className="w-18 h-18 object-contain" />
+        ),
+        "Need to start": (
+                <img src="/images/Status (3).png" alt="Logo" className="w-18 h-18 object-contain" />
+        ),
+        "Complete": (
+                <img src="/images/Status.png" alt="Logo" className="w-18 h-18 object-contain" />
+        ),
+        "Blocked": (
+                <img src="/images/Status (1).png" alt="Logo" className="w-18 h-18 object-contain" />
+        ),
       };
-      
+
       return (
-        <span className={`inline-flex px-2 py-0.5 rounded text-xs font-medium ${priorityStyles[priority as keyof typeof priorityStyles]}`}>
-          {priority}
-        </span>
+        <div className="flex items-center justify-center">
+          {statusIcons[status] ?? <span className="text-xs text-gray-500">Unknown</span>}
+        </div>
       );
     };
 
-    const renderCell = (
-  value: string, 
-  rowIndex: number, 
-  column: string, 
-  type: 'text' | 'status' | 'priority' | 'url' | 'currency' = 'text',
-  rightAlign: boolean = false
-) => {
+    const getPriorityBadge = (priority: string) => {
+  const priorityStyles = {
+    'High': 'text-red-700',
+    'Medium': 'text-amber-700',
+    'Low': 'text-blue-700'
+  };
+  
+  return (
+    <span className={`text-xs font-medium ${priorityStyles[priority as keyof typeof priorityStyles]}`}>
+      {priority}
+    </span>
+  );
+};
 
+    const renderCell = (
+      value: string, 
+      rowIndex: number, 
+      column: string, 
+      type: 'text' | 'status' | 'priority' | 'url' | 'currency' = 'text',
+      rightAlign: boolean = false
+    ) => {
       const isSelected = selectedCell?.row === rowIndex && selectedCell?.col === column;
       const isEditing = editingCell?.row === rowIndex && editingCell?.col === column;
       
@@ -206,54 +215,44 @@
       }
 
       let content;
-switch (type) {
-  case 'status':
-    content = getStatusBadge(value);
-    break;
-  case 'priority':
-    content = getPriorityBadge(value);
-    break;
-  case 'url':
-    content = <span className="text-blue-600 underline text-xs truncate">{value}</span>;
-    break;
-  case 'currency':
-    content = (
-      <div className="flex items-center justify-end space-x-1 w-full">
-        <span className="text-xs text-gray-900 truncate">{value}</span>
-        <img src="/images/₹.png" alt="₹" className="w-3 h-3 object-contain" />
-      </div>
-    );
-    break;
-  default:
-    content = <span className="text-xs text-gray-900 truncate">{value}</span>;
-}
-
+      switch (type) {
+        case 'status':
+          content = getStatusBadge(value);
+          break;
+        case 'priority':
+          content = getPriorityBadge(value);
+          break;
+        case 'url':
+          content = <span className="text-black underline text-xs truncate">{value}</span>;
+          break;
+        case 'currency':
+          content = (
+            <div className="flex items-center justify-end space-x-1 w-full">
+              <span className="text-xs text-gray-900 truncate">{value}</span>
+              <img src="/images/₹.png" alt="₹" className="w-3 h-3 object-contain" />
+            </div>
+          );
+          break;
+        default:
+          content = <span className="text-xs text-gray-900 truncate">{value}</span>;
+      }
 
       return (
-  <div
-    className={`w-full h-full px-3 py-2 cursor-cell hover:bg-gray-50 flex items-center ${
-      isSelected ? 'bg-blue-50 ring-1 ring-blue-500' : ''
-    } ${rightAlign ? 'justify-end text-right' : ''}`}
-    onClick={() => handleCellClick(rowIndex, column)}
-    onDoubleClick={() => handleCellDoubleClick(rowIndex, column, value)}
-  >
-    {content}
-  </div>
-);
-
-    };
-
-    const renderAddCell = () => {
-      return (
-        <div className="w-full h-full px-3 py-2 cursor-pointer hover:bg-gray-50 flex items-center justify-center">
-          <Plus className="w-3 h-3 text-gray-400" />
+        <div
+          className={`w-full h-full px-3 py-2 cursor-cell hover:bg-gray-50 flex items-center ${
+            isSelected ? 'bg-blue-50 ring-1 ring-blue-500' : ''
+          } ${rightAlign ? 'justify-end text-right' : ''}`}
+          onClick={() => handleCellClick(rowIndex, column)}
+          onDoubleClick={() => handleCellDoubleClick(rowIndex, column, value)}
+        >
+          {content}
         </div>
       );
     };
 
-  const rowsPerScreen = Math.floor((window.innerHeight - 150) / 40);
-  const totalRows = Math.max(rowsPerScreen, data.length);
-  const emptyRows = totalRows - data.length;
+    const rowsPerScreen = Math.floor((window.innerHeight - 150) / 40);
+    const totalRows = Math.max(rowsPerScreen, data.length);
+    const emptyRows = totalRows - data.length;
 
     return (
       <div className="h-screen bg-gray-50 flex flex-col">
@@ -306,17 +305,26 @@ switch (type) {
               </div>
               
               <div className="flex items-center space-x-1">
-                <button className="flex items-center space-x-1 px-2 py-1 text-xs text-gray-800 hover:bg-gray-100 rounded">
+                <button 
+                  onClick={handleHideFields}
+                  className="flex items-center space-x-1 px-2 py-1 text-xs text-gray-800 hover:bg-gray-100 rounded"
+                >
                   <EyeOff className="w-3 h-3" />
                   <span>Hide fields</span>
                 </button>
                 
-                <button className="flex items-center space-x-1 px-2 py-1 text-xs text-gray-800 hover:bg-gray-100 rounded">
+                <button 
+                  onClick={handleSort}
+                  className="flex items-center space-x-1 px-2 py-1 text-xs text-gray-800 hover:bg-gray-100 rounded"
+                >
                   <ArrowUpDown className="w-3 h-3" />
                   <span>Sort</span>
                 </button>
                 
-                <button className="flex items-center space-x-1 px-2 py-1 text-xs text-gray-800 hover:bg-gray-100 rounded">
+                <button 
+                  onClick={handleFilter}
+                  className="flex items-center space-x-1 px-2 py-1 text-xs text-gray-800 hover:bg-gray-100 rounded"
+                >
                   <img src="/images/Filter.png" alt="Logo" className="w-5 h-4 object-contain" />
                   <span>Filter</span>
                 </button>
@@ -329,22 +337,34 @@ switch (type) {
             </div>
             
             <div className="flex items-center space-x-1">
-              <button className="flex items-center space-x-1 px-2 py-1.5 text-xs text-gray-700 hover:bg-white rounded border border-gray-200">
+              <button 
+                onClick={handleImport}
+                className="flex items-center space-x-1 px-2 py-1.5 text-xs text-gray-700 hover:bg-white rounded border border-gray-200"
+              >
                 <img src="/images/Shape (2).png" alt="Logo" className="w-3 h-3 object-contain" />
                 <span>Import</span>
               </button>
               
-              <button className="flex items-center space-x-1 px-2 py-1.5 text-xs text-gray-700 hover:bg-white rounded border border-gray-200">
+              <button 
+                onClick={handleExport}
+                className="flex items-center space-x-1 px-2 py-1.5 text-xs text-gray-700 hover:bg-white rounded border border-gray-200"
+              >
                 <img src="/images/Shape (1).png" alt="Logo" className="w-3 h-3 object-contain" />
                 <span>Export</span>
               </button>
               
-              <button className="flex items-center space-x-1 px-2 py-1.5 text-xs text-gray-700 hover:bg-white rounded border border-gray-200">
+              <button 
+                onClick={handleShare}
+                className="flex items-center space-x-1 px-2 py-1.5 text-xs text-gray-700 hover:bg-white rounded border border-gray-200"
+              >
                 <img src="/images/Share.png" alt="Logo" className="w-3 h-3 object-contain" />
                 <span>Share</span>
               </button>
               
-              <button className="flex items-center space-x-1 px-3 py-2 bg-[#4B6A4F] text-white text-xs rounded hover:bg-green-700 font-medium">
+              <button 
+                onClick={handleNewAction}
+                className="flex items-center space-x-1 px-3 py-2 bg-[#4B6A4F] text-white text-xs rounded hover:bg-green-700 font-medium"
+              >
                 <img src="/images/Arrow Split.png" alt="Logo" className="w-4 h-4 object-contain" />
                 <span>New Action</span>
               </button>
@@ -352,64 +372,58 @@ switch (type) {
           </div>
         </div>
 
-      
-
-        {/* Scrollable Spreadsheet Container ka */}
+        {/* Scrollable Spreadsheet Container */}
         <div className="flex-1 overflow-auto bg-white">
           <div className="w-full h-full overflow-x-auto">
             <div className="min-w-full max-w-[1440px] w-full mx-auto">
               <table className="min-w-full table-fixed border-collapse">
                 <thead className="sticky top-0 z-10 bg-gray-50">
-                <tr>
-    <th className="bg-white px-1 py-1 border-r border-gray-300">
-      <div className="inline-flex items-center">
-        <img src="/images/Blank cell.png" alt="Logo" className="w-4 h-4 object-contain" />
-      </div>
-    </th>
+                  <tr>
+                    <th className="bg-white px-1 py-1 border-r border-gray-300">
+                      <div className="inline-flex items-center">
+                        <img src="/images/Blank cell.png" alt="Logo" className="w-4 h-4 object-contain" />
+                      </div>
+                    </th>
 
-    <th className="bg-[#E2E2E2] px-1 py-1 text-left border-r border-gray-300" colSpan={4}>
-      <div className="inline-flex items-center space-x-1 px-2 py-1 bg-[#EEEEEE] rounded-md shadow-sm">
-        <img src="/images/Link.png" alt="Logo" className="w-4 h-4 object-contain" />
-        <span className="text-xs font-medium text-gray-800">Q3 Financial Overview</span>
-      </div>
-    </th>
+                    <th className="bg-[#E2E2E2] px-1 py-1 text-left border-r border-gray-300" colSpan={4}>
+                      <div className="inline-flex items-center space-x-1 px-2 py-1 bg-[#EEEEEE] rounded-md shadow-sm">
+                        <img src="/images/Link.png" alt="Logo" className="w-4 h-4 object-contain" />
+                        <span className="text-xs font-medium text-gray-800">Q3 Financial Overview</span>
+                      </div>
+                    </th>
 
-   
-
-    <th className="bg-white border-r border-gray-200"></th> 
-    <th className="bg-[#D2E0D4] px-2 py-1 text-left border-r border-gray-200" colSpan={1}>
-      <div className="flex items-center space-x-1">
-        <img src="/images/Arrow Split.png" alt="Logo" className="w-4 h-4 object-contain" />
-        <span className="text-xs font-semibold text-center text-grey-900">ABC</span>
-        <img src="/images/More.png" alt="Logo" className="w-4 h-4 object-contain" />
-      </div>
-    </th>
-    <th className="bg-[#DCCFFC] px-2 py-1 text-left border-r border-gray-200" colSpan={2}>
-      <div className="flex items-center space-x-1">
-        <img src="/images/Arrow Split.png" alt="Logo" className="w-4 h-4 object-contain" />
-        <span className="text-xs font-semibold text-grey-900">Answer a question</span>
-        <img src="/images/More.png" alt="Logo" className="w-4 h-4 object-contain" />
-      </div>
-    </th>
-    <th className="bg-[#FAC2AF] px-2 py-1 text-left border-r border-gray-200" colSpan={1}>
-      <div className="flex items-center space-x-1">
-        <img src="/images/Arrow Split.png" alt="Logo" className="w-4 h-4 object-contain" />
-        <span className="text-xs font-semibold text-grey-900">Extract</span>
-        <img src="/images/More.png" alt="Logo" className="w-4 h-4 object-contain" />
-      </div>
-    </th>
-    <th className="bg-[#EEEEEE] px-2 py-1 text-center">
-      <Plus className="w-5 h-5 text-gray-900 mx-auto" />
-    </th>
-  </tr>
-
+                    <th className="bg-white border-r border-gray-200"></th> 
+                    <th className="bg-[#D2E0D4] px-2 py-1 text-left border-r border-gray-200" colSpan={1}>
+                      <div className="flex items-center space-x-1">
+                        <img src="/images/Arrow Split.png" alt="Logo" className="w-4 h-4 object-contain" />
+                        <span className="text-xs font-semibold text-center text-grey-900">ABC</span>
+                        <img src="/images/More.png" alt="Logo" className="w-4 h-4 object-contain" />
+                      </div>
+                    </th>
+                    <th className="bg-[#DCCFFC] px-2 py-1 text-left border-r border-gray-200" colSpan={2}>
+                      <div className="flex items-center space-x-1">
+                        <img src="/images/Arrow Split.png" alt="Logo" className="w-4 h-4 object-contain" />
+                        <span className="text-xs font-semibold text-grey-900">Answer a question</span>
+                        <img src="/images/More.png" alt="Logo" className="w-4 h-4 object-contain" />
+                      </div>
+                    </th>
+                    <th className="bg-[#FAC2AF] px-2 py-1 text-left border-r border-gray-200" colSpan={1}>
+                      <div className="flex items-center space-x-1">
+                        <img src="/images/Arrow Split.png" alt="Logo" className="w-4 h-4 object-contain" />
+                        <span className="text-xs font-semibold text-grey-900">Extract</span>
+                        <img src="/images/More.png" alt="Logo" className="w-4 h-4 object-contain" />
+                      </div>
+                    </th>
+                    <th className="bg-[#EEEEEE] px-2 py-1 text-center">
+                      <Plus className="w-5 h-5 text-gray-900 mx-auto" />
+                    </th>
+                  </tr>
 
                   <tr>
                     <th className=" w-12 px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200 bg-[#EEEEEE]">#</th>
                     <th className=" bg-[#EEEEEE] px-2 py-2 text-left text-xs font-medium text-black tracking-wider border-r border-white " style={{minWidth: '200px'}}>
                       <div className="flex items-center space-x-1">
                       <div className="inline-flex item-center"><img src="/images/Briefcase.png" alt="Logo" className="w-4 h-4 object-contain" /></div>
-
                         <span>Job Request</span>
                         <ChevronDown className="w-3 h-3" />
                       </div>
@@ -451,32 +465,23 @@ switch (type) {
                     </th>
                     <th className="bg-[#EAE3FC] px-2 py-2 text-left text-xs font-medium text-black tracking-wider border-r border-white" style={{minWidth: '90px'}}>
                       <div className="flex items-center space-x-1">
-                        
                         <span>Priority</span>
-                        
                       </div>
                     </th>
                     <th className="bg-[#EAE3FC] px-2 py-2 text-left text-xs font-medium text-black tracking-wider border-r border-white " style={{minWidth: '100px'}}>
                       <div className="flex items-center space-x-1">
-                        
                         <span>Due Date</span>
-                        
                       </div>
                     </th>
                     <th className="bg-[#FFE9E0] px-2 py-2 text-left text-xs font-medium text-black tracking-wider border-r border-white " style={{minWidth: '100px'}}>
                       <div className="flex items-center space-x-1">
-                        
                         <span>Est. Value</span>
-                        
                       </div>
                     </th>
-                  <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200 bg-gray-50" style={{minWidth: '80px'}}>
-    <div className="flex items-center justify-center">
-      
-    </div>
-  </th>
-                      
-
+                    <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200 bg-gray-50" style={{minWidth: '80px'}}>
+                      <div className="flex items-center justify-center">
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-100">
@@ -490,11 +495,9 @@ switch (type) {
                       <td className="border-r border-gray-100 h-10">{renderCell(row.url, index, 'url', 'url')}</td>
                       <td className="border-r border-gray-100 h-10">{renderCell(row.assigned, index, 'assigned')}</td>
                       <td className="border-r border-gray-100 h-10">{renderCell(row.priority, index, 'priority', 'priority')}</td>
-                      <td className="border-r border-gray-100 h-10 text-right pr-4">{renderCell(row.dueDate, index, 'dueDate', 'text', true)}</td>
-<td className="border-r border-gray-100 h-10 text-right pr-4">{renderCell(row.estValue, index, 'estValue', 'currency')}</td>
-
+                      <td className="border-r border-gray-100 h-10">{renderCell(row.dueDate, index, 'dueDate', 'text', true)}</td>
+                      <td className="border-r border-gray-100 h-10">{renderCell(row.estValue, index, 'estValue', 'currency', true)}</td>
                       <td className="h-10"><div className="px-2 py-2 h-full"></div></td>
-
                     </tr>
                   ))}
                   
@@ -510,8 +513,8 @@ switch (type) {
                       <td className="border-r border-gray-100 h-10"><div className="px-2 py-2 h-full"></div></td>
                       <td className="border-r border-gray-100 h-10"><div className="px-2 py-2 h-full"></div></td>
                       <td className="border-r border-gray-100 h-10"><div className="px-2 py-2 h-full"></div></td>
-                      <td className="h-10"><div className="px-2 py-2 h-full"></div></td>
 
+                      <td className="h-10"><div className="px-2 py-2 h-full"></div></td>
                     </tr>
                   ))}
                 </tbody>
@@ -520,7 +523,7 @@ switch (type) {
           </div>
         </div>
 
-        {/* Bottom vala Tabs Section */}
+        {/* Bottom Tabs Section */}
         <div className="bg-white border-t border-gray-200 px-4 py-1 flex-shrink-0">
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1">
